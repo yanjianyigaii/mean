@@ -4,6 +4,7 @@
  * Module dependencies.
  */
 var config = require('../config'),
+  chalk = require('chalk'),
   express = require('express'),
   morgan = require('morgan'),
   logger = require('./logger'),
@@ -185,6 +186,7 @@ module.exports.initModulesClientRoutes = function (app) {
 module.exports.initModulesServerPolicies = function (app) {
   // Globbing policy files
   config.files.server.policies.forEach(function (policyPath) {
+    console.log(chalk.green('ACL Policy:     ' + policyPath));
     require(path.resolve(policyPath)).invokeRolesPolicies();
   });
 };

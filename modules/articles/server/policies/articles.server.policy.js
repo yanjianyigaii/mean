@@ -60,6 +60,7 @@ exports.isAllowed = function (req, res, next) {
       return res.status(500).send('Unexpected authorization error');
     } else {
       if (isAllowed) {
+        console.log(roles, req.route.path, req.method.toLowerCase());
         // Access granted! Invoke next middleware
         return next();
       } else {

@@ -81,12 +81,15 @@ exports.delete = function (req, res) {
  * List of Articles
  */
 exports.list = function (req, res) {
+  // order desc by "created", get user's displayName via populate.
   Article.find().sort('-created').populate('user', 'displayName').exec(function (err, articles) {
     if (err) {
       return res.status(422).send({
         message: errorHandler.getErrorMessage(err)
       });
     } else {
+      // console.log("DEBUGGING: The user's displayname is " + articles[0].user.displayName);
+      // console.log("DEBUGGING: The user's username is " + articles[0].user.username);
       res.json(articles);
     }
   });
