@@ -67,6 +67,7 @@ module.exports.initMiddleware = function (app) {
   app.use(favicon(app.locals.favicon));
 
   // Enable logger (morgan) if enabled in the configuration file
+  // LEARN LATER
   if (_.has(config, 'log.format')) {
     app.use(morgan(logger.getLogFormat(), logger.getMorganOptions()));
   }
@@ -80,14 +81,24 @@ module.exports.initMiddleware = function (app) {
   }
 
   // Request body parsing middleware should be above methodOverride
+
+  // Returns middleware that only parses urlencoded bodies. This parser accepts only UTF-8 encoding of the body and supports automatic inflation of gzip and deflate encodings.
+  // The extended option allows to choose between parsing the URL-encoded data with the querystring library (when false) or the qs library (when true).
+  // Defaults to true, but using the default has been deprecated. Please research into the difference between qs and querystring and choose the appropriate setting.
   app.use(bodyParser.urlencoded({
     extended: true
   }));
   app.use(bodyParser.json());
+
+  // LEARN LATER
   app.use(methodOverride());
 
   // Add the cookie parser and flash middleware
   app.use(cookieParser());
+
+  // The flash is a special area of the session used for storing messages. Messages are written to the flash and cleared after being displayed to the user.
+  // The flash is typically used in combination with redirects, ensuring that the message is available to the next page that is to be rendered.
+  // This middleware was extracted from Express 2.x, after Express 3.x removed direct support for the flash.
   app.use(flash());
 };
 
@@ -95,6 +106,7 @@ module.exports.initMiddleware = function (app) {
  * Configure view engine
  */
 module.exports.initViewEngine = function (app) {
+  // hbs: Express handlebars template engine with multiple layouts, blocks and cached partials.
   app.engine('server.view.html', hbs.express4({
     extname: '.server.view.html'
   }));
